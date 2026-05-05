@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LI-RADS肝硬化结节评估系统（完全对照图片版）</title>
+    <style>
+        :root {
+            --primary-color: #0066cc;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --info-color: #17a2b8;
+            --light-bg: #f8f9fa;
+            --border-color: #dee2e6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f0f2f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), #004080);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+        
+        .step-indicator {
+            display: flex;
+            background-color: #f8f9fa;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .step {
+            flex: 1;
+            text-align: center;
+            padding: 15px;
+            font-weight: 500;
+            color: #6c757d;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .step.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+            background-color: rgba(0, 102, 204, 0.05);
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 50%;
+            background-color: #e9ecef;
+            margin-right: 8px;
+            font-weight: bold;
+        }
+        
+        .step.active .step-number {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .step-content {
+            padding: 30px;
+            min-height: 500px;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.1);
+        }
+        
+        .checkbox-grid, .radio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
+        }
+        
+        .checkbox-item, .radio-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .checkbox-item:hover, .radio-item:hover {
+            background-color: #f8f9fa;
+            border-color: var(--primary-color);
+        }
+        
+        .checkbox-item input, .radio-item input {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+        }
+        
+        .slider-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        input[type="range"] {
+            flex: 1;
+            height: 8px;
+            border-radius: 4px;
+            background: #e9ecef;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+        }
+        
+        .size-display {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--primary-color);
+            min-width: 80px;
+        }
+        
+        .btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn i {
+            margin-right: 8px;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+        
+        .btn-success {
+            background-color: var(--success-color);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background-color: #218838;
+        }
+        
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #545b62;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        
+        .result-box {
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+            color: white;
+        }
+        
+        .lr-3 { background-color: var(--warning-color); color: #333; }
+        .lr-4 { background-color: var(--warning-color); }
+        .lr-5 { background-color: var(--danger-color); }
+        .lrm { background-color: var(--info-color); }
+        
+        .result-category {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .result-explanation {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+        
+        .recommendation {
+            background-color: #fff3cd;
+            border-left: 4px solid var(--warning-color);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 0 6px 6px 0;
+        }
+        
+        .recommendation strong {
+            color: #856404;
+        }
+        
+        .summary-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .summary-table th, .summary-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border-color);
+            text-align: left;
+        }
+        
+        .summary-table th {
+            background-color: var(--light-bg);
+            font-weight: 600;
+        }
+        
+        .summary-table tr:hover {
+            background-color: rgba(0,0,0,0.02);
+        }
+        
+        .feature-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin: 2px;
+        }
+        
+        .badge-primary { background-color: #cfe2ff; color: #084298; }
+        .badge-success { background-color: #d1e7dd; color: #0f5132; }
+        .badge-warning { background-color: #fff3cd; color: #856404; }
+        .badge-danger { background-color: #f8d7da; color: #842029; }
+        
+        .classification-note {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--primary-color);
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 6px 6px 0;
+        }
+        
+        .classification-note h4 {
+            margin-top: 0;
+            color: var(--primary-color);
+        }
+        
+        .export-options {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #6c757d;
+            font-size: 14px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        @media (max-width: 768px) {
+            .step-indicator {
+                flex-direction: column;
+            }
+            
+            .step {
+                padding: 10px;
+            }
+            
+            .checkbox-grid, .radio-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>LI-RADS肝硬化结节评估系统</h1>
+            <p class="subtitle">基于LI-RADS 2018标准 | 完全对照官方分类表格实现</p>
+        </header>
+        
+        <div class="step-indicator">
+            <div class="step active" data-step="1">
+                <span class="step-number">1</span> 患者筛选
+            </div>
+            <div class="step" data-step="2">
+                <span class="step-number">2</span> 特征评估
+            </div>
+            <div class="step" data-step="3">
+                <span class="step-number">3</span> 结果分析
+            </div>
+            <div class="step" data-step="4">
+                <span class="step-number">4</span> 报告生成
+            </div>
+        </div>
+        
+        <div class="step-content">
+            <!-- 第1步：患者筛选 -->
+            <div class="tab-content active" id="tab1">
+                <h2>第一步：患者筛选与风险确认</h2>
+                <p>LI-RADS系统仅适用于肝细胞癌(HCC)高危人群。请确认患者是否符合以下条件：</p>
+                
+                <div class="form-group">
+                    <label>患者基本信息</label>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                        <div>
+                            <input type="text" class="form-control" id="patientId" placeholder="患者ID (可选)">
+                        </div>
+                        <div>
+                            <input type="date" class="form-control" id="examDate" value="">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>请选择患者的危险因素：</label>
+                    <div class="checkbox-grid">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="risk1" value="肝硬化（任何病因）">
+                            <label for="risk1">肝硬化（任何病因）</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="risk2" value="慢性乙型肝炎（无论是否肝硬化）">
+                            <label for="risk2">慢性乙型肝炎（无论是否肝硬化）</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="risk3" value="慢性丙型肝炎（无论是否肝硬化）">
+                            <label for="risk3">慢性丙型肝炎（无论是否肝硬化）</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="risk4" value="当前或既往HCC病史">
+                            <label for="risk4">当前或既往HCC病史</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="risk5" value="非酒精性脂肪性肝炎伴晚期肝纤维化">
+                            <label for="risk5">非酒精性脂肪性肝炎伴晚期肝纤维化</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="risk6" value="遗传性血色素沉着症">
+                            <label for="risk6">遗传性血色素沉着症</label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="goToStep(2)">
+                        确认高危状态并继续 <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 第2步：特征评估 -->
+            <div class="tab-content" id="tab2">
+                <h2>第二步：结节特征评估</h2>
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px;">
+                    <div>
+                        <div class="form-group">
+                            <label>病灶大小 (mm)</label>
+                            <div class="slider-container">
+                                <input type="range" class="form-control" id="lesionSize" min="1" max="100" step="1" value="10">
+                                <div class="size-display" id="sizeValue">10 mm</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>病灶位置 (Couinaud分段)</label>
+                            <select class="form-control" id="lesionLocation">
+                                <option value="S1">S1 (尾状叶)</option>
+                                <option value="S2">S2 (左外上段)</option>
+                                <option value="S3">S3 (左外下段)</option>
+                                <option value="S4" selected>S4 (左内段)</option>
+                                <option value="S5">S5 (右前下段)</option>
+                                <option value="S6">S6 (右后下段)</option>
+                                <option value="S7">S7 (右后上段)</option>
+                                <option value="S8">S8 (右前上段)</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>主要征象</label>
+                            <div class="checkbox-grid">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="aphe" value="非环状动脉期高强化">
+                                    <label for="aphe">非环状动脉期高强化 (APHE)</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="washout" value="非周边廓清">
+                                    <label for="washout">非周边廓清</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="capsule" value="强化包膜">
+                                    <label for="capsule">强化包膜</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="growth" value="阈值增长">
+                                    <label for="growth">阈值增长 (≤6个月直径增长≥50%)</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="form-group">
+                            <label>辅助征象 (可选)</label>
+                            <div class="checkbox-grid">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="anc1" value="非强化包膜">
+                                    <label for="anc1">非强化包膜</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="anc2" value="马赛克结构">
+                                    <label for="anc2">马赛克结构</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="anc3" value="结节中结节">
+                                    <label for="anc3">结节中结节</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="anc4" value="扩散受限">
+                                    <label for="anc4">扩散受限(DWI高/ADC低)</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="anc5" value="肝胆期低信号">
+                                    <label for="anc5">肝胆期低信号(普美显)</label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>LR-M特征 (恶性，但特征不典型于HCC)</label>
+                            <div class="radio-grid">
+                                <div class="radio-item">
+                                    <input type="radio" name="lrm" id="lrm0" value="无LR-M特征" checked>
+                                    <label for="lrm0">无LR-M特征</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" name="lrm" id="lrm1" value="环形动脉期高强化">
+                                    <label for="lrm1">环形动脉期高强化</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" name="lrm" id="lrm2" value="周边廓清">
+                                    <label for="lrm2">周边廓清</label>
+                                </div>
+                                <div class="radio-item">
+                                    <input type="radio" name="lrm" id="lrm3" value="浸润性表现">
+                                    <label for="lrm3">浸润性表现</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="classification-note">
+                    <h4><i class="fas fa-info-circle"></i> 分类逻辑说明</h4>
+                    <p>本系统严格按照LI-RADS 2018官方分类表格实现，完全按照您提供的总结逻辑进行计算。</p>
+                </div>
+                
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="goToStep(1)">
+                        <i class="fas fa-arrow-left"></i> 上一步
+                    </button>
+                    <button class="btn btn-primary" onclick="calculateLirads()">
+                        计算LI-RADS分类 <i class="fas fa-calculator"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 第3步：结果分析 -->
+            <div class="tab-content" id="tab3">
+                <h2>第三步：结果分析</h2>
+                
+                <div id="resultContainer">
+                    <!-- 结果将动态显示在这里 -->
+                </div>
+                
+                <h3>评估摘要</h3>
+                <table class="summary-table" id="summaryTable">
+                    <thead>
+                        <tr>
+                            <th>项目</th>
+                            <th>结果</th>
+                        </tr>
+                    </thead>
+                    <tbody id="summaryBody">
+                        <!-- 摘要将动态生成 -->
+                    </tbody>
+                </table>
+                
+                <h3 style="margin-top: 30px;">LI-RADS分类解释</h3>
+                <table class="summary-table">
+                    <thead>
+                        <tr>
+                            <th>分类</th>
+                            <th>含义</th>
+                            <th>管理建议</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="feature-badge badge-warning">LR-3</span></td>
+                            <td>中度恶性可能</td>
+                            <td>短期随访(3-6个月)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="feature-badge badge-warning">LR-4</span></td>
+                            <td>很可能为HCC</td>
+                            <td>MDT讨论，可活检/治疗/随访</td>
+                        </tr>
+                        <tr>
+                            <td><span class="feature-badge badge-danger">LR-5</span></td>
+                            <td>明确为HCC</td>
+                            <td>无需活检，直接治疗</td>
+                        </tr>
+                        <tr>
+                            <td><span class="feature-badge badge-primary">LR-M</span></td>
+                            <td>恶性，但特征不典型于HCC</td>
+                            <td>必须活检</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="goToStep(2)">
+                        <i class="fas fa-arrow-left"></i> 上一步
+                    </button>
+                    <button class="btn btn-success" onclick="goToStep(4)">
+                        生成报告 <i class="fas fa-file-medical"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 第4步：报告生成 -->
+            <div class="tab-content" id="tab4">
+                <h2>第四步：报告生成</h2>
+                
+                <div class="form-group">
+                    <label>报告内容</label>
+                    <textarea class="form-control" id="reportContent" rows="15" readonly></textarea>
+                </div>
+                
+                <div class="export-options">
+                    <button class="btn btn-primary" onclick="exportAsText()">
+                        <i class="fas fa-download"></i> 下载文本报告
+                    </button>
+                    <button class="btn btn-success" onclick="exportAsJSON()">
+                        <i class="fas fa-code"></i> 导出JSON数据
+                    </button>
+                    <button class="btn btn-secondary" onclick="printReport()">
+                        <i class="fas fa-print"></i> 打印报告
+                    </button>
+                </div>
+                
+                <div class="btn-group">
+                    <button class="btn btn-secondary" onclick="goToStep(3)">
+                        <i class="fas fa-arrow-left"></i> 上一步
+                    </button>
+                    <button class="btn btn-primary" onclick="newAssessment()">
+                        <i class="fas fa-redo"></i> 开始新评估
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>LI-RADS评估系统 v1.0 | 基于LI-RADS 2018标准 | 完全对照官方分类表格实现</p>
+            <p>© 2023 肝细胞癌影像评估工具 | 本工具不存储任何患者数据</p>
+        </footer>
+    </div>
+
+    <script>
+        // 全局变量
+        let assessmentData = {
+            patientId: '',
+            examDate: '',
+            riskFactors: [],
+            lesionSize: 10,
+            lesionLocation: 'S4',
+            majorFeatures: [],
+            ancillaryFeatures: [],
+            lrmFeature: '无LR-M特征',
+            liradsCategory: '',
+            explanation: '',
+            recommendation: ''
+        };
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            // 设置默认日期为今天
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('examDate').value = today;
+            
+            // 监听滑块变化
+            document.getElementById('lesionSize').addEventListener('input', function() {
+                document.getElementById('sizeValue').textContent = this.value + ' mm';
+            });
+            
+            // 监听步骤指示器点击
+            document.querySelectorAll('.step').forEach(step => {
+                step.addEventListener('click', function() {
+                    const stepNum = parseInt(this.getAttribute('data-step'));
+                    goToStep(stepNum);
+                });
+            });
+        });
+        
+        // 步骤导航
+        function goToStep(stepNumber) {
+            // 更新步骤指示器
+            document.querySelectorAll('.step').forEach(step => {
+                step.classList.remove('active');
+            });
+            document.querySelector(`.step[data-step="${stepNumber}"]`).classList.add('active');
+            
+            // 更新标签页
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(`tab${stepNumber}`).classList.add('active');
+            
+            // 如果跳转到第4步，生成报告
+            if (stepNumber === 4) {
+                generateReport();
+            }
+        }
+        
+        // 计算LI-RADS分类
+        function calculateLirads() {
+            // 收集数据
+            assessmentData.lesionSize = parseInt(document.getElementById('lesionSize').value);
+            assessmentData.lesionLocation = document.getElementById('lesionLocation').value;
+            
+            // 收集主要征象
+            assessmentData.majorFeatures = [];
+            if (document.getElementById('aphe').checked) assessmentData.majorFeatures.push('非环状动脉期高强化');
+            if (document.getElementById('washout').checked) assessmentData.majorFeatures.push('非周边廓清');
+            if (document.getElementById('capsule').checked) assessmentData.majorFeatures.push('强化包膜');
+            if (document.getElementById('growth').checked) assessmentData.majorFeatures.push('阈值增长');
+            
+            // 收集辅助征象
+            assessmentData.ancillaryFeatures = [];
+            for (let i = 1; i <= 5; i++) {
+                const checkbox = document.getElementById(`anc${i}`);
+                if (checkbox && checkbox.checked) {
+                    assessmentData.ancillaryFeatures.push(checkbox.value);
+                }
+            }
+            
+            // 收集LR-M特征
+            const lrmRadios = document.querySelectorAll('input[name="lrm"]:checked');
+            assessmentData.lrmFeature = lrmRadios.length > 0 ? lrmRadios[0].value : '无LR-M特征';
+            
+            // 计算LI-RADS分类
+            calculateLiradsCategory();
+            
+            // 跳转到结果页面
+            goToStep(3);
+        }
+        
+        // 计算LI-RADS分类算法（完全按照您提供的总结逻辑）
+        function calculateLiradsCategory() {
+            const hasAPHE = assessmentData.majorFeatures.includes('非环状动脉期高强化');
+            const hasWashout = assessmentData.majorFeatures.includes('非周边廓清');
+            const hasCapsule = assessmentData.majorFeatures.includes('强化包膜');
+            const hasGrowth = assessmentData.majorFeatures.includes('阈值增长');
+            const size = assessmentData.lesionSize;
+            const hasLRM = assessmentData.lrmFeature !== '无LR-M特征';
+            
+            // 计算非APHE的主要征象数量
+            const otherMajorFeaturesCount = (hasWashout ? 1 : 0) + (hasCapsule ? 1 : 0) + (hasGrowth ? 1 : 0);
+            
+            let category = 'LR-3';
+            let explanation = '';
+            
+            // 1. 检查LR-M (具有最高优先级)
+            if (hasLRM) {
+                category = 'LR-M';
+                explanation = '病灶具有LR-M特征，提示非HCC恶性肿瘤可能。';
+            }
+            // 2. 无APHE的情况
+            else if (!hasAPHE) {
+                if (size < 20) {
+                    if (otherMajorFeaturesCount === 0) {
+                        category = 'LR-3';
+                        explanation = '无APHE，病灶<20mm，无其他主要特征。';
+                    } else if (otherMajorFeaturesCount === 1) {
+                        category = 'LR-3';
+                        explanation = '无APHE，病灶<20mm，有1个其他主要特征。';
+                    } else { // otherMajorFeaturesCount >= 2
+                        category = 'LR-4';
+                        explanation = '无APHE，病灶<20mm，有≥2个其他主要特征。';
+                    }
+                } else { // size >= 20
+                    if (otherMajorFeaturesCount === 0) {
+                        category = 'LR-3';
+                        explanation = '无APHE，病灶≥20mm，无其他主要特征。';
+                    } else { // otherMajorFeaturesCount >= 1
+                        category = 'LR-4';
+                        explanation = `无APHE，病灶≥20mm，有${otherMajorFeaturesCount}个其他主要特征。`;
+                    }
+                }
+            }
+            // 3. 有APHE的情况
+            else {
+                if (size < 10) {
+                    if (otherMajorFeaturesCount === 0) {
+                        category = 'LR-3';
+                        explanation = '有APHE，病灶<10mm，无其他主要特征。';
+                    } else { // otherMajorFeaturesCount >= 1
+                        category = 'LR-4';
+                        explanation = '有APHE，病灶<10mm，有主要特征，但<10mm不能为LR-5。';
+                    }
+                } else if (size >= 10 && size < 20) {
+                    if (otherMajorFeaturesCount === 0) {
+                        category = 'LR-3';
+                        explanation = '有APHE，病灶10-19mm，无其他主要特征。';
+                    } else if (otherMajorFeaturesCount === 1) {
+                        if (hasCapsule) {
+                            category = 'LR-4';
+                            explanation = '有APHE，病灶10-19mm，仅有强化包膜。';
+                        } else if (hasWashout || hasGrowth) {
+                            category = 'LR-5';
+                            explanation = '有APHE，病灶10-19mm，有非周边廓清或阈值增长。';
+                        }
+                    } else { // otherMajorFeaturesCount >= 2
+                        category = 'LR-5';
+                        explanation = '有APHE，病灶10-19mm，有≥2个主要特征。';
+                    }
+                } else { // size >= 20
+                    if (otherMajorFeaturesCount === 0) {
+                        category = 'LR-4';
+                        explanation = '有APHE，病灶≥20mm，无其他主要特征。';
+                    } else { // otherMajorFeaturesCount >= 1
+                        category = 'LR-5';
+                        explanation = '有APHE，病灶≥20mm，有主要特征。';
+                    }
+                }
+            }
+            
+            // 4. 辅助征象微调
+            if (category === 'LR-3' && assessmentData.ancillaryFeatures.length >= 2) {
+                category = 'LR-4';
+                explanation += '（因存在≥2个恶性辅助征象，从LR-3上调至LR-4）';
+            }
+            
+            // 管理建议
+            let recommendation = '';
+            switch(category) {
+                case 'LR-5':
+                    recommendation = '确诊HCC，无需活检，直接按HCC进行临床分期和治疗';
+                    break;
+                case 'LR-4':
+                    recommendation = '很可能为HCC，建议多学科会诊，可考虑活检、治疗或短期(3个月)随访';
+                    break;
+                case 'LR-3':
+                    recommendation = '中度恶性可能，建议短期(3-6个月)影像随访';
+                    break;
+                case 'LR-M':
+                    recommendation = '可能恶性，但特征不典型于HCC，必须活检以明确病理类型';
+                    break;
+                default:
+                    recommendation = '请根据具体情况决定';
+            }
+            
+            // 保存结果
+            assessmentData.liradsCategory = category;
+            assessmentData.explanation = explanation;
+            assessmentData.recommendation = recommendation;
+            
+            // 显示结果
+            displayResults();
+        }
+        
+        // 显示结果
+        function displayResults() {
+            const container = document.getElementById('resultContainer');
+            const category = assessmentData.liradsCategory;
+            
+            let colorClass = '';
+            switch(category) {
+                case 'LR-5': colorClass = 'lr-5'; break;
+                case 'LR-4': colorClass = 'lr-4'; break;
+                case 'LR-3': colorClass = 'lr-3'; break;
+                case 'LR-M': colorClass = 'lrm'; break;
+            }
+            
+            container.innerHTML = `
+                <div class="result-box ${colorClass}">
+                    <div class="result-category">LI-RADS ${category}</div>
+                    <div class="result-explanation">${assessmentData.explanation}</div>
+                </div>
+                
+                <div class="recommendation">
+                    <strong><i class="fas fa-bullhorn"></i> 管理建议：</strong> ${assessmentData.recommendation}
+                </div>
+            `;
+            
+            // 更新摘要表格
+            updateSummaryTable();
+        }
+        
+        // 更新摘要表格
+        function updateSummaryTable() {
+            const summaryBody = document.getElementById('summaryBody');
+            
+            summaryBody.innerHTML = `
+                <tr>
+                    <td>患者ID</td>
+                    <td>${assessmentData.patientId || '未填写'}</td>
+                </tr>
+                <tr>
+                    <td>病灶大小</td>
+                    <td>${assessmentData.lesionSize} mm</td>
+                </tr>
+                <tr>
+                    <td>病灶位置</td>
+                    <td>${assessmentData.lesionLocation}</td>
+                </tr>
+                <tr>
+                    <td>APHE</td>
+                    <td>${assessmentData.majorFeatures.includes('非环状动脉期高强化') ? '是' : '否'}</td>
+                </tr>
+                <tr>
+                    <td>非周边廓清</td>
+                    <td>${assessmentData.majorFeatures.includes('非周边廓清') ? '是' : '否'}</td>
+                </tr>
+                <tr>
+                    <td>强化包膜</td>
+                    <td>${assessmentData.majorFeatures.includes('强化包膜') ? '是' : '否'}</td>
+                </tr>
+                <tr>
+                    <td>阈值增长</td>
+                    <td>${assessmentData.majorFeatures.includes('阈值增长') ? '是' : '否'}</td>
+                </tr>
+                <tr>
+                    <td>辅助征象数量</td>
+                    <td>${assessmentData.ancillaryFeatures.length}个</td>
+                </tr>
+                <tr>
+                    <td>LR-M特征</td>
+                    <td>${assessmentData.lrmFeature}</td>
+                </tr>
+                <tr>
+                    <td>LI-RADS分类</td>
+                    <td><strong>${assessmentData.liradsCategory}</strong></td>
+                </tr>
+            `;
+        }
+        
+        // 生成报告
+        function generateReport() {
+            const now = new Date();
+            const reportDate = now.toLocaleDateString('zh-CN') + ' ' + now.toLocaleTimeString('zh-CN', {hour12: false});
+            
+            const report = `肝脏影像诊断报告
+========================================
+
+患者基本信息
+----------------------------------------
+患者ID: ${assessmentData.patientId || '未填写'}
+检查日期: ${assessmentData.examDate}
+报告日期: ${reportDate}
+检查方法: 上腹部增强MRI/CT
+
+影像所见
+----------------------------------------
+肝${assessmentData.lesionLocation}段见一结节，大小约${assessmentData.lesionSize}mm。
+
+主要征象:
+${assessmentData.majorFeatures.length > 0 ? assessmentData.majorFeatures.map(f => '  - ' + f).join('\n') : '  无'}
+
+辅助征象:
+${assessmentData.ancillaryFeatures.length > 0 ? assessmentData.ancillaryFeatures.map(f => '  - ' + f).join('\n') : '  无'}
+
+LR-M特征:
+  ${assessmentData.lrmFeature}
+
+LI-RADS分类
+----------------------------------------
+LI-RADS ${assessmentData.liradsCategory}
+
+分类依据: ${assessmentData.explanation}
+
+印象
+----------------------------------------
+肝${assessmentData.lesionLocation}段结节，LI-RADS ${assessmentData.liradsCategory}。
+
+建议
+----------------------------------------
+${assessmentData.recommendation}
+
+========================================
+*本报告基于LI-RADS 2018标准生成，仅供参考*
+*报告生成时间: ${reportDate}*
+*注：本系统完全按照官方分类表格逻辑计算*
+`;
+            
+            document.getElementById('reportContent').value = report;
+        }
+        
+        // 导出为文本文件
+        function exportAsText() {
+            const report = document.getElementById('reportContent').value;
+            const blob = new Blob([report], {type: 'text/plain'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            
+            a.href = url;
+            a.download = `LI-RADS报告_${assessmentData.patientId || '匿名'}_${new Date().toISOString().slice(0,10)}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        // 导出为JSON
+        function exportAsJSON() {
+            const data = {
+                assessment: assessmentData,
+                timestamp: new Date().toISOString(),
+                system: "LI-RADS评估系统(完全对照表格版)"
+            };
+            
+            const jsonStr = JSON.stringify(data, null, 2);
+            const blob = new Blob([jsonStr], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            
+            a.href = url;
+            a.download = `LI-RADS数据_${assessmentData.patientId || '匿名'}.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        // 打印报告
+        function printReport() {
+            const report = document.getElementById('reportContent').value;
+            const printWindow = window.open('', '_blank');
+            
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>LI-RADS报告打印</title>
+                    <style>
+                        body { font-family: SimSun, serif; line-height: 1.6; }
+                        h1 { text-align: center; }
+                        .report-content { white-space: pre-wrap; }
+                        @media print {
+                            .no-print { display: none; }
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1>肝脏影像诊断报告</h1>
+                    <div class="report-content">${report}</div>
+                    <div class="no-print" style="margin-top: 20px;">
+                        <button onclick="window.print()">打印</button>
+                        <button onclick="window.close()">关闭</button>
+                    </div>
+                </body>
+                </html>
+            `);
+            
+            printWindow.document.close();
+        }
+        
+        // 开始新评估
+        function newAssessment() {
+            // 重置所有表单
+            document.getElementById('patientId').value = '';
+            document.getElementById('examDate').value = new Date().toISOString().split('T')[0];
+            
+            // 重置复选框
+            document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                cb.checked = false;
+            });
+            
+            // 重置单选按钮
+            document.querySelectorAll('input[type="radio"]').forEach(rb => {
+                if (rb.id === 'lrm0') rb.checked = true;
+                else rb.checked = false;
+            });
+            
+            // 重置滑块
+            document.getElementById('lesionSize').value = 10;
+            document.getElementById('sizeValue').textContent = '10 mm';
+            
+            // 重置数据
+            assessmentData = {
+                patientId: '',
+                examDate: new Date().toISOString().split('T')[0],
+                riskFactors: [],
+                lesionSize: 10,
+                lesionLocation: 'S4',
+                majorFeatures: [],
+                ancillaryFeatures: [],
+                lrmFeature: '无LR-M特征',
+                liradsCategory: '',
+                explanation: '',
+                recommendation: ''
+            };
+            
+            // 返回第1步
+            goToStep(1);
+        }
+    </script>
+</body>
+</html>
